@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Μαρίσα Μουλλαϋμέρι – Τεχνολόγος Τροφίμων</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #2c6e49;
+      --primary-light: #4a9e6e;
+      --accent: #d4e6d5;
+      --dark: #1a1a2e;
+      --text: #333;
+      --muted: #666;
+      --border: #dde8dd;
+      --bg: #f7faf7;
+      --white: #fff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 0.75rem 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.03em;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    nav a:hover { background: var(--accent); }
+
+    /* ── LANGUAGE SWITCHER ── */
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-left: auto;
+    }
+    .lang-btn {
+      background: none;
+      border: 2px solid transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      padding: 2px 4px;
+      font-size: 1.4rem;
+      line-height: 1;
+      opacity: 0.5;
+      transition: opacity 0.2s, border-color 0.2s, transform 0.1s;
+    }
+    .lang-btn:hover { opacity: 0.8; transform: scale(1.1); }
+    .lang-btn.active {
+      opacity: 1;
+      border-color: var(--primary);
+      background: var(--accent);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, #1a4731 100%);
+      color: var(--white);
+      padding: 4rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem;
+    }
+    .hero-photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid rgba(255,255,255,0.4);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .hero h1 { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.01em; }
+    .hero p.tagline { font-size: 1.15rem; opacity: 0.85; max-width: 480px; }
+    .hero-contacts {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    .hero-contacts a {
+      color: var(--white);
+      text-decoration: none;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .hero-contacts a:hover { background: rgba(255,255,255,0.28); }
+
+    /* ── MAIN LAYOUT ── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .sidebar { display: flex; flex-direction: column; gap: 2rem; }
+
+    section { margin-bottom: 2.5rem; }
+    section:last-child { margin-bottom: 0; }
+
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--primary);
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+
+    /* ── SKILLS ── */
+    .skill-tag {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--primary);
+      border-radius: 999px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin: 0.2rem 0.15rem;
+    }
+
+    /* ── CONTACT INFO ── */
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      margin-bottom: 0.65rem;
+      font-size: 0.9rem;
+    }
+    .contact-item .icon { font-size: 1rem; margin-top: 0.1rem; flex-shrink: 0; color: var(--primary); }
+    .contact-item a { color: var(--primary); word-break: break-all; }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; padding-left: 1.4rem; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0.45rem; top: 0.5rem; bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+    .timeline-item { position: relative; margin-bottom: 1.6rem; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -1.12rem; top: 0.5rem;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 2px solid var(--white);
+      box-shadow: 0 0 0 2px var(--primary);
+    }
+    .timeline-date {
+      font-size: 0.78rem; font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.15rem;
+    }
+    .timeline-role { font-size: 1rem; font-weight: 700; color: var(--dark); }
+    .timeline-org { font-size: 0.88rem; color: var(--muted); font-style: italic; margin-bottom: 0.5rem; }
+    .timeline-desc { font-size: 0.88rem; color: var(--text); }
+    .timeline-desc ul { padding-left: 1.1rem; }
+    .timeline-desc ul li { margin-bottom: 0.25rem; }
+
+    /* ── SEMINARS ── */
+    .seminar-item {
+      border-left: 3px solid var(--primary-light);
+      padding: 0.5rem 0.75rem;
+      margin-bottom: 0.75rem;
+      background: var(--white);
+      border-radius: 0 6px 6px 0;
+      font-size: 0.88rem;
+    }
+    .seminar-item:last-child { margin-bottom: 0; }
+    .seminar-item .org { font-size: 0.78rem; color: var(--muted); margin-top: 0.15rem; }
+
+    /* ── ACADEMIC WORKS ── */
+    .work-item { display: flex; gap: 1rem; margin-bottom: 1rem; font-size: 0.88rem; }
+    .work-item:last-child { margin-bottom: 0; }
+    .work-date { min-width: 70px; font-weight: 700; color: var(--primary); font-size: 0.8rem; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      .container { grid-template-columns: 1fr; gap: 1.5rem; }
+      .hero h1 { font-size: 1.8rem; }
+      nav { gap: 0.75rem; }
+      .lang-switcher { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#experience"  data-i18n="nav_experience"></a>
+    <a href="#education"   data-i18n="nav_education"></a>
+    <a href="#seminars"    data-i18n="nav_seminars"></a>
+    <a href="#skills"      data-i18n="nav_skills"></a>
+    <a href="#contact"     data-i18n="nav_contact"></a>
+
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="btn-el" onclick="setLang('el')" title="Ελληνικά">🇬🇷</button>
+      <button class="lang-btn"        id="btn-en" onclick="setLang('en')" title="English">🇬🇧</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <img src="profile_pic.jpg" alt="Μαρίσα Μουλλαϋμέρι" class="hero-photo" />
+    <h1>Μαρίσα Μουλλαϋμέρι</h1>
+    <p class="tagline" data-i18n="tagline"></p>
+    <div class="hero-contacts">
+      <a href="mailto:mlmrmarisa@gmail.com">✉ mlmrmarisa@gmail.com</a>
+    </div>
+  </header>
+
+  <!-- CONTENT GRID -->
+  <div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <!-- CONTACT -->
+      <section id="contact" class="card">
+        <h2 class="section-title" data-i18n="nav_contact"></h2>
+<div class="contact-item">
+          <span class="icon">✉</span>
+          <a href="mailto:mlmrmarisa@gmail.com">mlmrmarisa@gmail.com</a>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section id="skills" class="card">
+        <h2 class="section-title" data-i18n="nav_skills"></h2>
+        <span class="skill-tag" data-i18n="skill_english"></span>
+        <span class="skill-tag">Microsoft Office</span>
+        <span class="skill-tag">Minitab 16 &amp; 17</span>
+        <span class="skill-tag">Fluent CFD</span>
+        <span class="skill-tag">Super Pro Designer v9</span>
+        <span class="skill-tag">ISO 22000:2018</span>
+        <span class="skill-tag">IFS Food</span>
+        <span class="skill-tag">HALAL</span>
+        <span class="skill-tag" data-i18n="skill_rheology"></span>
+        <span class="skill-tag" data-i18n="skill_qc"></span>
+        <span class="skill-tag" data-i18n="skill_labeling"></span>
+      </section>
+
+      <!-- ACADEMIC WORKS -->
+      <section class="card">
+        <h2 class="section-title" data-i18n="academic_title"></h2>
+        <div class="work-item">
+          <span class="work-date">03/2015</span>
+          <span data-i18n="work_1"></span>
+        </div>
+        <div class="work-item">
+          <span class="work-date">12/2014</span>
+          <span data-i18n="work_2"></span>
+        </div>
+      </section>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main>
+
+      <!-- EDUCATION -->
+      <section id="education">
+        <h2 class="section-title" data-i18n="nav_education"></h2>
+        <div class="card">
+          <div class="timeline-date" data-i18n="edu_grad"></div>
+          <div class="timeline-role" data-i18n="edu_dept"></div>
+          <div class="timeline-org" data-i18n="edu_school"></div>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section id="experience">
+        <h2 class="section-title" data-i18n="nav_experience"></h2>
+        <div class="timeline">
+
+          <div class="timeline-item">
+            <div class="timeline-date" data-i18n="exp0_date"></div>
+            <div class="timeline-role" data-i18n="exp0_role"></div>
+            <div class="timeline-org">Αρτοβιομηχανία Σταύρος Νένδος – Select Bakery</div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-date" data-i18n="exp1_date"></div>
+            <div class="timeline-role" data-i18n="exp1_role"></div>
+            <div class="timeline-org">Αρτοβιομηχανία Σταύρος Νένδος – Select Bakery</div>
+            <div class="timeline-desc">
+              <ul>
+                <li data-i18n="exp1_task1"></li>
+                <li data-i18n="exp1_task2"></li>
+                <li data-i18n="exp1_task3"></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-date">2015 – 2016</div>
+            <div class="timeline-role" data-i18n="exp2_role"></div>
+            <div class="timeline-org">Αρτοβιομηχανία Σταύρος Νένδος – Select Bakery</div>
+            <div class="timeline-desc" data-i18n="exp2_desc"></div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SEMINARS -->
+      <section id="seminars">
+        <h2 class="section-title" data-i18n="nav_seminars"></h2>
+
+        <div class="seminar-item">
+          <strong>Certificate of Attendance – IFS Food V.7</strong>
+          <div class="org" data-i18n="sem1_org"></div>
+        </div>
+
+        <div class="seminar-item">
+          <strong>Religious Background and Halal Assurance System</strong>
+          <div class="org">Halal Academy Europe · 19/11/2018</div>
+        </div>
+
+        <div class="seminar-item">
+          <strong data-i18n="sem3_title"></strong>
+          <div class="org" data-i18n="sem3_org"></div>
+        </div>
+
+        <div class="seminar-item">
+          <strong data-i18n="sem4_title"></strong>
+          <div class="org" data-i18n="sem4_org"></div>
+        </div>
+
+        <div class="seminar-item">
+          <strong data-i18n="sem5_title"></strong>
+          <div class="org" data-i18n="sem5_org"></div>
+        </div>
+
+        <div class="seminar-item">
+          <strong data-i18n="sem6_title"></strong>
+          <div class="org" data-i18n="sem6_org"></div>
+        </div>
+
+        <div class="seminar-item">
+          <strong data-i18n="sem7_title"></strong>
+          <div class="org" data-i18n="sem7_org"></div>
+        </div>
+
+        <div class="seminar-item">
+          <strong data-i18n="sem8_title"></strong>
+          <div class="org" data-i18n="sem8_org"></div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer style="text-align:center; padding:1.5rem; font-size:0.8rem; color:var(--muted); border-top:1px solid var(--border);">
+    &copy; 2026 Μαρίσα Μουλλαϋμέρι
+  </footer>
+
+  <script>
+    const translations = {
+      el: {
+        nav_experience: "Εμπειρία",
+        nav_education:  "Σπουδές",
+        nav_seminars:   "Σεμινάρια",
+        nav_skills:     "Δεξιότητες",
+        nav_contact:    "Επικοινωνία",
+
+        tagline: "Τεχνολόγος Τροφίμων &amp; Ειδικός Διασφάλισης Ποιότητας",
+        address: "Μεγάλου Αλεξάνδρου 49, Σίνδος",
+
+        skill_english:  "Αγγλικά Β2",
+        skill_rheology: "Ρεολογία Αλεύρων",
+        skill_qc:       "Ποιοτικός Έλεγχος",
+        skill_labeling: "Επισήμανση Τροφίμων ΕΕ 1169/2011",
+
+        academic_title: "Ακαδημαϊκές Εργασίες",
+        work_1: "Ανάπτυξη CFD μοντέλου ροής και μεταφοράς θερμότητας σε θερμαινόμενο και αναδυόμενο δοχείο (Πτυχιακή Εργασία)",
+        work_2: "Περιεκτικότητα ακρυλαμιδίου, μεταβλητές που επηρεάζουν την εμφάνισή του και μέθοδοι προσδιορισμού στον άνθρωπο και στα τρόφιμα",
+
+        edu_grad:   "Απόφοιτη",
+        edu_dept:   "Τμήμα Τεχνολογίας Τροφίμων",
+        edu_school: "Σχολή Τεχνολογίας Γεωπονίας και Τεχνολογίας Τροφίμων &amp; Διατροφής<br>Διεθνές Πανεπιστήμιο της Ελλάδος",
+
+        exp0_date:  "2026 – Σήμερα",
+        exp0_role:  "Quality Assurance Supervisor",
+        exp1_date:  "2016 – 2026",
+        exp1_role:  "Τεχνολόγος Τροφίμων – Τμήμα Ποιότητας",
+        exp1_task1: "Ποιοτικός έλεγχος και ρεολογικές αναλύσεις αλεύρων",
+        exp1_task2: "Διαχείριση συστημάτων διασφάλισης ποιότητας (ISO 22000:2018, IFS, HALAL, Burger King &amp; KFC)",
+        exp1_task3: "Διαχείριση και εκπόνηση ετικετών τροφίμων σύμφωνα με την οδηγία ΕΕ 1169/2011 και εφαρμογή σε εκτυπωτικά βιομηχανικού τύπου",
+        exp2_role:  "Πρακτική Άσκηση – Τμήμα Ποιότητας",
+        exp2_desc:  "Ποιοτικός έλεγχος και ρεολογικές αναλύσεις αλεύρων.",
+
+        sem1_org: "Lloyd's Register · Οκτώβριος 2020 (πιστοποίηση 04/03/2022)",
+        sem3_title: "Σεμινάριο Επιθεωρητών / Επικεφαλής Επιθεωρητών ISO 22000:2005 (ISO 19011)",
+        sem3_org:   "QMSCERT · 4–8 Δεκεμβρίου 2018, 40 ώρες",
+        sem4_title: "Δημητριακά: Καλλιέργεια και μεταποίηση σε προϊόντα προστιθέμενης αξίας",
+        sem4_org:   "Πρόγραμμα Τριπτόλεμος – Γεν. Γραμματεία Νέας Γενιάς &amp; Δια Βίου Μάθησης · 20/02/2018–27/03/2019, 50 ώρες",
+        sem5_title: "Τεχνολογία Αρτοποιίας και Ζαχαροπλαστικής",
+        sem5_org:   "Πανελλήνια Ένωση Τεχνολόγων Τροφίμων – Περιφ. Τμήμα Βορείου Ελλάδος · 6–7 Ιουνίου 2015, 10 ώρες",
+        sem6_title: "Πρώτες Βοήθειες",
+        sem6_org:   "Μ.Κ.Ο. Έλληνες Διασώστες Δ · 11 &amp; 16 Μαΐου 2015",
+        sem7_title: "Νέα Νομοθεσία Επισήμανσης Τροφίμων – Κανονισμός 1169/2011",
+        sem7_org:   "Πανελλήνια Ένωση Τεχνολόγων Τροφίμων – Περιφ. Τμήμα Βορείου Ελλάδος · 12–13 Δεκεμβρίου 2014",
+        sem8_title: "Σεμινάριο Επιθεωρητών / Επικεφαλής Επιθεωρητών ISO 9001:2008 (ISO 19011)",
+        sem8_org:   "QMSCERT · 14–20 Οκτωβρίου 2013, 40 ώρες",
+      },
+
+      en: {
+        nav_experience: "Experience",
+        nav_education:  "Education",
+        nav_seminars:   "Seminars",
+        nav_skills:     "Skills",
+        nav_contact:    "Contact",
+
+        tagline: "Food Technologist &amp; Quality Assurance Specialist",
+        address: "49 Megalou Alexandrou St., Sindos",
+
+        skill_english:  "English B2",
+        skill_rheology: "Flour Rheology",
+        skill_qc:       "Quality Control",
+        skill_labeling: "Food Labeling EU 1169/2011",
+
+        academic_title: "Academic Works",
+        work_1: "Development of a CFD model of flow and heat transfer in a heated and stirred vessel (Thesis)",
+        work_2: "Acrylamide content, variables affecting its occurrence and methods of determination in humans and food",
+
+        edu_grad:   "Graduate",
+        edu_dept:   "Department of Food Technology",
+        edu_school: "School of Agricultural Technology and Food Technology &amp; Nutrition<br>International Hellenic University",
+
+        exp0_date:  "2026 – Present",
+        exp0_role:  "Quality Assurance Supervisor",
+        exp1_date:  "2016 – 2026",
+        exp1_role:  "Food Technologist – Quality Department",
+        exp1_task1: "Quality control and rheological analysis of flours",
+        exp1_task2: "Management of quality assurance systems (ISO 22000:2018, IFS, HALAL, Burger King &amp; KFC)",
+        exp1_task3: "Management and preparation of food labels in compliance with EU Directive 1169/2011 and application to industrial printing systems",
+        exp2_role:  "Internship – Quality Department",
+        exp2_desc:  "Quality control and rheological analysis of flours.",
+
+        sem1_org: "Lloyd's Register · October 2020 (certified 04/03/2022)",
+        sem3_title: "ISO 22000:2005 Lead Auditor / Auditor Seminar (ISO 19011)",
+        sem3_org:   "QMSCERT · 4–8 December 2018, 40 hours",
+        sem4_title: "Cereals: Cultivation and Processing into Value-Added Products",
+        sem4_org:   "Triptolem Programme – General Secretariat for Youth &amp; Lifelong Learning · 20/02/2018–27/03/2019, 50 hours",
+        sem5_title: "Bakery and Pastry Technology",
+        sem5_org:   "Panhellenic Union of Food Technologists – Northern Greece Branch · 6–7 June 2015, 10 hours",
+        sem6_title: "First Aid",
+        sem6_org:   "NGO Greek Rescuers D · 11 &amp; 16 May 2015",
+        sem7_title: "New Food Labeling Legislation – Regulation 1169/2011",
+        sem7_org:   "Panhellenic Union of Food Technologists – Northern Greece Branch · 12–13 December 2014",
+        sem8_title: "ISO 9001:2008 Lead Auditor / Auditor Seminar (ISO 19011)",
+        sem8_org:   "QMSCERT · 14–20 October 2013, 40 hours",
+      }
+    };
+
+    let currentLang = 'el';
+
+    function setLang(lang) {
+      currentLang = lang;
+      const t = translations[lang];
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.innerHTML = t[key];
+      });
+
+      document.documentElement.lang = lang;
+      document.getElementById('btn-el').classList.toggle('active', lang === 'el');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    }
+
+    // Initialise with Greek on load
+    setLang('el');
+  </script>
+
+</body>
+</html>
